@@ -112,8 +112,29 @@ while choice != 5:
                    
 ##            except:
                 
-##    if choice == 4:
-##
+    if choice == 4:
+
+        exitCheck = False
+        while exitCheck == False:
+            nameOrder = input("enter the item name\nor enter [0] to return to main menu: ")
+            statusOrder = 'pending'
+            if nameOrder == '0':
+                break
+            typeOrder = input("enter the item type: ")
+            orderCount = input("enter the number of orders: ")
+
+            try:
+                for x in range(in(orderCount)):
+                    query4 = """INSERT INTO orders(item_name, item_type, order_status) VALUES (%s, %s, %s)"""
+                    val = (nameOrder, typeOrder, statusOrder)
+                    mycursor.execute(query4, val)
+                mydb.commit()
+            except:
+                print("ITEM(S) DO NOT HAVE APPROPRIATE TYPE")
+            else:
+                exitCheck = True
+                print("your order(s) have been submitted")
+
 ##    if choice == 5:
 
     if choice == 6:
