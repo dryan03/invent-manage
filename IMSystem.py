@@ -100,17 +100,17 @@ while choice != 5:
 ##        while idCheck == False:
 ##            itemId = input("enter ")
 
-    if choice == 3: # exporting an item
-        exitCheck == False
-        while exitCheck == False:
-            export = input("enter 4 digit item ID to export \nor [0] to return to main menu: ") 
+##    if choice == 3: # exporting an item
+##        exitCheck == False
+##        while exitCheck == False:
+##            export = input("enter 4 digit item ID to export \nor [0] to return to main menu: ") 
 
-            if export == '0':
+##            if export == '0':
                 break
             
-            try:
+##            try:
                    
-            except:
+##            except:
                 
 ##    if choice == 4:
 ##
