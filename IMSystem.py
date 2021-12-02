@@ -59,17 +59,13 @@ while choice != 5:
     print("[",choice,"]")
 
     if choice == 1:
-        
         typeCheck = False
-        
         while typeCheck == False:
             nameNewItem = input("enter [item name] to continue \nEnter [0] to return to main menu: ")
-
             if nameNewItem == '0':
                 break
             typeNewItem = input("enter the item type \n[monitor, cpu , gpu, storage, case]: ")
             countNewItem = input("enter the number of items: ")
-
             try:
                 for x in range(int(countNewItem)):
                     query1 = """INSERT INTO item(item_name, item_type) VALUES (%s, %s)""" 
@@ -83,19 +79,17 @@ while choice != 5:
                 print("Item(s) have been imported")
 
     if choice == 2: #now is "track item"
-
         query2 = """SELECT * FROM item""" 
         mycursor.execute(query2) 
         myresult = mycursor.fetchall() 
  
         ##Prints the results 
         for row in myresult: 
-            print ('{:>15}  {:>15}  {:>15}'.format(*row))
+            print('{:>15}  {:>15}  {:>15}'.format(*row))
         ##If nothing is returned, the inventory is empty
-        if mycursor.rowcount == 0: 
+        if mycursor.rowcount == 0:
             print("The inventory is empty!\n")
 
-        
 ##        idCheck == False
 ##        while idCheck == False:
 ##            itemId = input("enter ")
@@ -106,14 +100,13 @@ while choice != 5:
 ##            export = input("enter 4 digit item ID to export \nor [0] to return to main menu: ") 
 
 ##            if export == '0':
-                break
+##              break
             
 ##            try:
                    
 ##            except:
                 
-    if choice == 4:
-
+    if choice == 4: ## placing orders
         exitCheck = False
         while exitCheck == False:
             nameOrder = input("enter the item name\nor enter [0] to return to main menu: ")
@@ -124,7 +117,7 @@ while choice != 5:
             orderCount = input("enter the number of orders: ")
 
             try:
-                for x in range(in(orderCount)):
+                for x in range(int(orderCount)):
                     query4 = """INSERT INTO orders(item_name, item_type, order_status) VALUES (%s, %s, %s)"""
                     val = (nameOrder, typeOrder, statusOrder)
                     mycursor.execute(query4, val)
