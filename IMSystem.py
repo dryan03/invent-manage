@@ -56,11 +56,11 @@ mydb.commit()
 
 choice = 0
 
-while choice != 5:
+while choice != '':
 ##Displays the Menu
     print("1. Import Item")
-    print("2. Export Item")
-    print("3. Track Item")
+    print("2. View Inventory")
+    print("3. Export Item")
     print("4. Place Order")
     print("5. View Orders")
     print("6. Exit")
@@ -70,6 +70,7 @@ while choice != 5:
     print("[",choice,"]")
 
     if choice == 1:
+        print("\nIMPORT ITEM")
         typeCheck = False
         while typeCheck == False:
             nameNewItem = input("enter [item name] to continue \nEnter [0] to return to main menu: ")
@@ -90,6 +91,7 @@ while choice != 5:
                 print("Item(s) have been imported")
 
     if choice == 2: #now is "track item"
+        print("\nVIEW INVENTORY")
         query2 = """SELECT * FROM item""" 
         mycursor.execute(query2) 
         myresult = mycursor.fetchall() 
@@ -118,6 +120,7 @@ while choice != 5:
 ##            except:
                 
     if choice == 4: ## placing orders
+        print("\nPLACE ORDER")
         exitCheck = False
         while exitCheck == False:
             nameOrder = input("enter the item name\nor enter [0] to return to main menu: ")
@@ -139,12 +142,22 @@ while choice != 5:
                 exitCheck = True
                 print("your order(s) have been submitted")
 
-##    if choice == 5: #view orders
+    if choice == 5: #view orders
+        query5 = """SELECT * FROM orders"""
+        mycursor.execute(query5)
+        myresult = mycursor.fetchall()
+
+        ##Prints the results
+        for row in myresult:
+            print('{:>15}  {:>15}  {:>15}'.format(*row))
+        ##If nothing is returned, the inventory is empty
+        if mycursor.rowcount == 0:
+            print("There are no existing orders\n")
 
     if choice == 6:
         ##deletes the database then closes this program
         print("Logging Out")
         exit()
     else:
-        print("Enter a valid menu option (1-5)")
+        print("\n-- MAIN MENU --")
 #mycursor.execute("DROP DATABASE inventorySystem")
