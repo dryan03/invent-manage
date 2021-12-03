@@ -1,12 +1,23 @@
 import csv
-import mysql.connector
+import mysql.connector as m
 import string
 
-mydb = mysql.connector.connect(
+#try:
+print("Connecting to MySQL...")
+mydb = m.connect(
     host="localhost",
-    user="root",
-    password="root"
+    user="root", 
+    password="root",
+    port = 3306,
+    auth_plugin='mysql_native_password'
     )
+#    print("Connection has been established")
+#except:
+#    print("Please Launch MySQL first!")
+#    exit()
+#else:
+#    print("Connection established")
+
 mycursor = mydb.cursor()
 
 ##Creating the database structure
