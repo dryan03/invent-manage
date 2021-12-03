@@ -1,2 +1,5 @@
-This version has implemented the ordering system
-but it has yet to be tested.
+This version has the 
+	ordering system
+	import system
+	viewing items
+fully operational

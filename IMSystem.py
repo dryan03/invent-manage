@@ -2,21 +2,21 @@ import csv
 import mysql.connector as m
 import string
 
-#try:
-print("Connecting to MySQL...")
-mydb = m.connect(
-    host="localhost",
-    user="root", 
-    password="root",
-    port = 3306,
-    auth_plugin='mysql_native_password'
+try:
+    print("Connecting to MySQL...")
+    mydb = m.connect(
+        host="localhost",
+        user="root", 
+        password="root",
+        port = 3306,
+        auth_plugin='mysql_native_password'
     )
-#    print("Connection has been established")
-#except:
-#    print("Please Launch MySQL first!")
-#    exit()
-#else:
-#    print("Connection established")
+    print("Connection has been established")
+except:
+    print("Please Launch MySQL first!")
+    exit()
+else:
+    print("Connection established")
 
 mycursor = mydb.cursor()
 
@@ -30,7 +30,7 @@ mycursor.execute("USE inventorySystem")
 
 try:
     mycursor.execute("CREATE TABLE item (item_id INT AUTO_INCREMENT PRIMARY KEY, item_name VARCHAR(20), item_type ENUM('monitor','cpu','gpu','storage','case'))")
-    mycursor.execute("CREATE TABLE orders (item_name VARCHAR(20), item_type VARCHAR(20), order_status VARCHAR(10))")
+    mycursor.execute("CREATE TABLE orders (item_name VARCHAR(20), item_type ENUM('monitor','cpu','gpu','storage','case'), order_status VARCHAR(10))")
     mydb.commit()
     mycursor.execute("ALTER TABLE item AUTO_INCREMENT = 1000")
     mydb.commit()
@@ -124,7 +124,7 @@ while choice != 5:
             statusOrder = 'pending'
             if nameOrder == '0':
                 break
-            typeOrder = input("enter the item type: ")
+            typeOrder = input("enter the item type\n[monitor, cpu , gpu, storage, case]: ")
             orderCount = input("enter the number of orders: ")
 
             try:
@@ -139,7 +139,7 @@ while choice != 5:
                 exitCheck = True
                 print("your order(s) have been submitted")
 
-##    if choice == 5:
+##    if choice == 5: #view orders
 
     if choice == 6:
         ##deletes the database then closes this program
