@@ -54,6 +54,27 @@ mycursor.execute("INSERT INTO orders values ('Intel Core i3','cpu','shipped')")
 
 mydb.commit()
 
+def exportItem():
+    print("\nEXPORT ITEM")
+    exitCheck = False
+    while exitCheck == False:
+        exportID = input("\nenter 4 digit item ID to export \nor [0] to return to main menu: ")
+        if exportID == '0':
+            break
+        queryCheck = """SELECT * FROM item WHERE item_id = %s"""
+        val = (int(exportID), )
+        mycursor.execute(queryCheck, val)
+        myresult = mycursor.fetchall()
+        
+        if mycursor.rowcount == 0:
+            print("the item ID you have entered does not exist")
+        else:
+            query3 = """DELETE FROM item WHERE item_id = %s"""
+            val = (int(exportID), )
+            mycursor.execute(query3, val)
+            mydb.commit()
+            print("item "+ exportID +" has been exported")
+
 choice = 0
 
 while choice != '':
@@ -108,24 +129,7 @@ while choice != '':
 ##            itemId = input("enter ")
 
     if choice == 3: # exporting an item
-        exitCheck = False
-        while exitCheck == False:
-            exportID = input("\nenter 4 digit item ID to export \nor [0] to return to main menu: ") 
-            if exportID == '0':
-              break
-            queryCheck = """SELECT * FROM item WHERE item_id = %s"""
-            val = (int(exportID), )
-            mycursor.execute(queryCheck, val)
-            myresult = mycursor.fetchall()
-
-            if mycursor.rowcount == 0:
-                print("the item ID you have entered does not exist")
-            else:
-                query3 = """DELETE FROM item WHERE item_id = %s"""
-                val = (int(exportID), )
-                mycursor.execute(query3, val)
-                mydb.commit()
-                print("item "+ exportID +" has been exported")
+        exportItem()
 
     if choice == 4: ## placing orders
         print("\nPLACE ORDER")
