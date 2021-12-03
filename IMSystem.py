@@ -54,6 +54,27 @@ mycursor.execute("INSERT INTO orders values ('Intel Core i3','cpu','shipped')")
 
 mydb.commit()
 
+def importItem():
+    print("\nIMPORT ITEM")
+    typeCheck = False
+    while typeCheck == False:
+        nameNewItem = input("enter [item name] to continue \nEnter [0] to return to main menu: ")
+        if nameNewItem == '0':
+            break
+        typeNewItem = input("enter the item type \n[monitor, cpu , gpu, storage, case]: ")
+        countNewItem = input("enter the number of items: ")
+        try:
+            for x in range(int(countNewItem)):
+                query1 = """INSERT INTO item(item_name, item_type) VALUES (%s, %s)"""
+                val = (nameNewItem, typeNewItem)
+                mycursor.execute(query1, val)
+                mydb.commit()
+        except:
+            print("ITEM(S) DO NOT HAVE APPROPRIATE TYPE")
+        else:
+            typeCheck = True
+            print("Item(s) have been imported")
+
 def exportItem():
     print("\nEXPORT ITEM")
     exitCheck = False
@@ -91,25 +112,7 @@ while choice != '':
     print("[",choice,"]")
 
     if choice == 1:
-        print("\nIMPORT ITEM")
-        typeCheck = False
-        while typeCheck == False:
-            nameNewItem = input("enter [item name] to continue \nEnter [0] to return to main menu: ")
-            if nameNewItem == '0':
-                break
-            typeNewItem = input("enter the item type \n[monitor, cpu , gpu, storage, case]: ")
-            countNewItem = input("enter the number of items: ")
-            try:
-                for x in range(int(countNewItem)):
-                    query1 = """INSERT INTO item(item_name, item_type) VALUES (%s, %s)""" 
-                    val = (nameNewItem, typeNewItem)
-                    mycursor.execute(query1, val) 
-                mydb.commit()
-            except:
-                print("ITEM(S) DO NOT HAVE APPROPRIATE TYPE")
-            else:
-                typeCheck = True
-                print("Item(s) have been imported")
+        importItem()
 
     if choice == 2: #now is "track item"
         print("\nVIEW INVENTORY")
