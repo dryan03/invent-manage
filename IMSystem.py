@@ -1,7 +1,25 @@
 import csv
-import mysql.connector as m
 import string
+import mysql.connector as m
 
+def connectMySQL(val):
+    try:
+        global mydb
+        mydb = m.connect(
+            host = "localhost",
+            user = "root",
+            password = "root",
+            port = 3306,
+            auth_plugin = 'mysql_native_password'
+        )
+    except:
+        raise Exception("Please Launch MySQL")
+        val = False
+    else:
+        global mycursor 
+        mycursor = mydb.cursor()
+        return val
+"""
 try:
     print("Connecting to MySQL...")
     mydb = m.connect(
@@ -15,10 +33,9 @@ try:
 except:
     print("Please Launch MySQL first!")
     exit()
-else:
-    print("Connection established")
+"""
 
-mycursor = mydb.cursor()
+connectMySQL(True)
 
 ##Creating the database structure
 try:
@@ -36,6 +53,7 @@ try:
     mydb.commit()
 except:
     pass
+
 ##Adding inventory to the database
 mycursor.execute("INSERT INTO item(item_name, item_type) values ('Intel Core i5','cpu')")
 mycursor.execute("INSERT INTO item(item_name, item_type) values ('Intel Core i7','cpu')")
@@ -51,15 +69,19 @@ mycursor.execute("INSERT INTO orders values ('Samsung IPS 4K','monitor','shipped
 mycursor.execute("INSERT INTO orders values ('Samsung 4TB HDD','storage','pending')")
 mycursor.execute("INSERT INTO orders values ('Intel Core i3','cpu','shipped')")
 
-
 mydb.commit()
 
-def importItem():
+def exitToMenu(uInput):
+    if uInput == '0':
+        return True
+    else:
+        return False
+
+def importItem(typeCheck):
     print("\nIMPORT ITEM")
-    typeCheck = False
-    while typeCheck == False:
+    while typeCheck == True:
         nameNewItem = input("enter [item name] to continue \nEnter [0] to return to main menu: ")
-        if nameNewItem == '0':
+        if exitToMenu(nameNewItem) == True:
             break
         typeNewItem = input("enter the item type \n[monitor, cpu , gpu, storage, case]: ")
         countNewItem = input("enter the number of items: ")
@@ -71,8 +93,9 @@ def importItem():
                 mydb.commit()
         except:
             print("ITEM(S) DO NOT HAVE APPROPRIATE TYPE")
+            return typeCheck
         else:
-            typeCheck = True
+            typeCheck = False
             print("Item(s) have been imported")
 
 def exportItem():
@@ -80,7 +103,7 @@ def exportItem():
     exitCheck = False
     while exitCheck == False:
         exportID = input("\nenter 4 digit item ID to export \nor [0] to return to main menu: ")
-        if exportID == '0':
+        if exitToMenu(exportID) == True:
             break
         queryCheck = """SELECT * FROM item WHERE item_id = %s"""
         val = (int(exportID), )
@@ -112,7 +135,7 @@ while choice != '':
     print("[",choice,"]")
 
     if choice == 1:
-        importItem()
+        importItem(True)
 
     if choice == 2: #now is "track item"
         print("\nVIEW INVENTORY")
@@ -140,7 +163,7 @@ while choice != '':
         while exitCheck == False:
             nameOrder = input("\nenter the item name\nor enter [0] to return to main menu: ")
             statusOrder = 'pending'
-            if nameOrder == '0':
+            if exitToMenu(nameOrder) == True:
                 break
             typeOrder = input("enter the item type\n[monitor, cpu , gpu, storage, case]: ")
             orderCount = input("enter the number of orders: ")
